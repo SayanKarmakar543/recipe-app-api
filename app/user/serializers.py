@@ -1,5 +1,7 @@
 """
 Serializers for the user API View.
+Admin Email: admin@example.com
+Admin Pass: 123
 """
 
 from django.contrib.auth import (
