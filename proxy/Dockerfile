@@ -6,7 +6,7 @@ USER root
 # Install Certbot and the Nginx plugin
 RUN apk update && apk add --no-cache \
     certbot \
-    py3-certbot-nginx
+    certbot-nginx
 
 COPY ./default.conf.tpl /etc/nginx/default.conf.tpl
 COPY ./uwsgi_params /etc/nginx/uwsgi_params
