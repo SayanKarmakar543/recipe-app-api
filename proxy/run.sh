@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-# Generate initial config without SSL
+# Generate initial config
 envsubst '${LISTEN_PORT} ${APP_HOST} ${APP_PORT}' < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf
 
 # Start Nginx temporarily
@@ -12,13 +12,13 @@ if [ ! -f /etc/letsencrypt/live/codemydream.in/fullchain.pem ]; then
   echo "Obtaining SSL certificates..."
   certbot --nginx -d codemydream.in -d www.codemydream.in \
     --non-interactive --agree-tos \
-    --email codemydream@gmail.com || true
+    --email codemydream@gmail.com --redirect || true
 fi
 
 # Stop temporary Nginx
 nginx -s quit
 
-# Generate final config with SSL
+# Generate final config
 envsubst '${LISTEN_PORT} ${APP_HOST} ${APP_PORT}' < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf
 
 # Start Nginx properly
