@@ -1,25 +1,25 @@
 #!/bin/sh
 set -e
 
-# First, generate a basic nginx config without SSL
+# Generate initial config without SSL
 envsubst '${LISTEN_PORT} ${APP_HOST} ${APP_PORT}' < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf
 
-# Start nginx temporarily in background
+# Start Nginx temporarily
 nginx -g "daemon on;"
 
-# Run certbot only if certificates don't exist
+# Get certificates if they don't exist
 if [ ! -f /etc/letsencrypt/live/codemydream.in/fullchain.pem ]; then
   echo "Obtaining SSL certificates..."
   certbot --nginx -d codemydream.in -d www.codemydream.in \
     --non-interactive --agree-tos \
-    --email codemydream@gmail.com --no-eff-email || true
+    --email codemydream@gmail.com || true
 fi
 
-# Stop the temporary nginx process
+# Stop temporary Nginx
 nginx -s quit
 
-# Generate final config with SSL settings
+# Generate final config with SSL
 envsubst '${LISTEN_PORT} ${APP_HOST} ${APP_PORT}' < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf
 
-# Start nginx in foreground
-nginx -g "daemon off;"
+# Start Nginx properly
+exec nginx -g "daemon off;"
