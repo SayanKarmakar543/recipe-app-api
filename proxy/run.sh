@@ -4,17 +4,13 @@ set -e
 
 envsubst < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf
 
-# Start Nginx in the background
-nginx
+# Check if certificates exist, if not, obtain them
+if [ ! -f /etc/letsencrypt/live/codemydream.in/fullchain.pem ]; then
+    echo "No SSL certificates found. Obtaining new ones..."
+    certbot --nginx -d codemydream.in -d www.codemydream.in \
+        --non-interactive --agree-tos \
+        --email codemydream@gmail.com --no-eff-email || true
+fi
 
-# Wait a bit to ensure Nginx is running
-sleep 5
-
-# Run Certbot to get/renew SSL certificates
-certbot --nginx -d codemydream.in -d www.codemydream.in --agree-tos --no-eff-email --email codemydream@gmail.com || true
-
-# Reload Nginx to apply the SSL certificates
-nginx -s reload
-
-# Keep the container running
-tail -f /var/log/nginx/access.log
+# Start Nginx
+nginx -g "daemon off;"
