@@ -1,6 +1,8 @@
 FROM nginxinc/nginx-unprivileged:1-alpine
 LABEL maintainer="info.codemydream.com"
 
+USER root
+
 # Install Certbot and the Nginx plugin
 RUN apk update && apk add --no-cache \
     certbot \
@@ -13,8 +15,6 @@ COPY ./run.sh /run.sh
 ENV LISTEN_PORT=80
 ENV APP_HOST=app
 ENV APP_PORT=9000
-
-USER root
 
 RUN mkdir -p /vol/static && \
     chmod 755 /vol/static && \
