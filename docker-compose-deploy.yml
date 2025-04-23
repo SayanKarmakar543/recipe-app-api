@@ -30,17 +30,14 @@ services:
   proxy:
     build:
       context: ./proxy
-    restart: unless-stopped
+    restart: always
     depends_on:
       - app
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:8000
     volumes:
       - static-data:/vol/static
-      - certbot-data:/etc/letsencrypt:ro
 
 volumes:
   postgres-data:
   static-data:
-  certbot-data:
