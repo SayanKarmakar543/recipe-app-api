@@ -156,3 +156,5 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "DESCRIPTION": "Recipe API project",
 }
+
+FORCE_SCRIPT_NAME = "/recipe-api-app"
