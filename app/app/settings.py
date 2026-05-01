@@ -157,4 +157,4 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Recipe API project",
 }
 
-FORCE_SCRIPT_NAME = "/recipe-api-app"
+FORCE_SCRIPT_NAME = os.environ.get("SCRIPT_NAME", "")
