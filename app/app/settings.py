@@ -152,4 +152,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
+    "TITLE": "Recipe API",
+    "VERSION": "1.0.0",
+    "DESCRIPTION": "Recipe API project",
 }
